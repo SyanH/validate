@@ -9,7 +9,7 @@
 安装：
 
 ```
-composer require syanH/validate
+composer require mzsongyan/validate
 ```
 
 文档：
