@@ -2,9 +2,8 @@
 
 namespace Mix\Validate;
 
-use Mix\Bean\BeanInjector;
 use Mix\Validate\Exception\InvalidArgumentException;
-use Psr\Http\Message\UploadedFileInterface;
+use Webman\Http\UploadFile;
 
 /**
  * Class Validator
@@ -20,7 +19,7 @@ abstract class Validator implements \JsonSerializable
     public $attributes = [];
 
     /**
-     * @var UploadedFileInterface[]
+     * @var UploadFile[]
      */
     public $uploadedFiles = [];
 
@@ -58,15 +57,12 @@ abstract class Validator implements \JsonSerializable
     /**
      * Validator constructor.
      * @param array $attributes
-     * @param UploadedFileInterface[] $uploadedFiles
+     * @param UploadFile[] $uploadedFiles
      */
     public function __construct(array $attributes, array $uploadedFiles = [])
     {
-        // 为了效验对象数组类型，使用BeanInjector
-        BeanInjector::inject($this, [
-            'attributes'    => $attributes,
-            'uploadedFiles' => $uploadedFiles,
-        ]);
+        $this->attributes = $attributes;
+        $this->uploadedFiles = $uploadedFiles;
     }
 
     /**

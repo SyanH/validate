@@ -2,11 +2,9 @@
 
 namespace Mix\Validate\Validator;
 
-use Mix\Bean\BeanInjector;
 use Mix\Validate\Validator;
-use Psr\Http\Message\ServerRequestInterface;
 use Mix\Validate\Exception\InvalidArgumentException;
-use Psr\Http\Message\UploadedFileInterface;
+use Webman\Http\UploadFile;
 
 /**
  * Class BaseValidator
@@ -60,7 +58,7 @@ abstract class BaseValidator
 
     /**
      * 上传的文件
-     * @var UploadedFileInterface[]
+     * @var UploadFile[]
      */
     public $uploadedFiles = [];
 
@@ -94,7 +92,11 @@ abstract class BaseValidator
      */
     public function __construct(array $config)
     {
-        BeanInjector::inject($this, $config);
+        foreach ($config as $key => $value) {
+            if (property_exists(static::class, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 
     /**
